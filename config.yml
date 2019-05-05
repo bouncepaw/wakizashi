@@ -1,0 +1,65 @@
+---
+name: Wakizashi Default Latin+Cyrillic
+layers:
+  latin:
+    single:
+      normal: [
+      o, a, p, e,
+      h, s, n, i,
+      ' ', ',', '.'
+      ]
+      shift: [
+      O, A, P, E,
+      H, S, N, I,
+      ]
+      symbol: [
+      8, 4, 2, 1,
+      ':', '"', "'", ";"
+      ]
+      function: [
+      _return,    _home,       _up_arrow,   _end,
+      _backspace, _left_arrow, _down_arrow, _right_arrow
+      ]
+    vertical:
+      normal: [r, l, d, u]
+      shift: [R, L, D, U]
+      symbol: [
+      _, _, '(', ')'
+      ]
+      function: [
+      _page_down, _page_up, _tab, _esc
+      ]
+      macro: []
+      control: []
+    double:
+      normal: [
+      u, c, m, w, '[', ']',
+      y, f, g, t, '{', '}',
+      ]
+      shift: [
+      U, C, M, W, '<', '>',
+      Y, F, G, T, '~', '`'
+      ]
+      symbol: [
+      '!', 6, 3, 9, '+', 0,
+      '{', '}', '/', \\, '*', _
+      ]
+      macro: [
+      "the ", "you ", "we ", "they ", "he", "she",
+      "I ", "are ", "is ", "it ", "an ", "a ",
+      ]
+    triple:
+      normal: [
+      b, v, k, j,
+      x, q, z, _
+      ]
+      shift: [
+      B, V, K, J,
+      X, Q, Z, _
+      ]
+      symbol: [
+      '#', '|', '?', '=',
+      _, _, _, _
+      ]
+    quadruple:
+      normal: ['-', '_', '^', '%', '&', '@']
