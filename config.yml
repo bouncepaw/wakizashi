@@ -20,6 +20,10 @@ layers:
       _return,    _home,       _up_arrow,   _end,
       _backspace, _left_arrow, _down_arrow, _right_arrow
       ]
+      macro: [
+      'to ', 'and ', 'of ', 'the ',
+      'a ', 'in ', 'that ', 'be '
+      ]
     vertical:
       normal: [r, l, d, u]
       shift: [R, L, D, U]
@@ -33,11 +37,11 @@ layers:
       control: []
     double:
       normal: [
-      u, c, m, w, '[', ']',
+      th, c, m, w, '[', ']',
       y, f, g, t, '{', '}',
       ]
       shift: [
-      U, C, M, W, '<', '>',
+      Th, C, M, W, '<', '>',
       Y, F, G, T, '~', '`'
       ]
       symbol: [
