@@ -18,57 +18,74 @@ typedef uint16_t chord;
 
 #define DEBUGGING 1
 
-enum mod {
-          Mctrl = 1,
-          Mshift = 2,
-          Maltl = 4,
-          Msuper = 8,
-          Maltgr = 16
-};
+namespace Mod {
+  enum mod {
+            ctrl = 1,
+            shift = 2,
+            altl = 4,
+            super = 8,
+            altgr = 16
+  };
+  uint8_t val[5] = {KEY_LEFT_CTRL,
+                    KEY_LEFT_SHIFT,
+                    KEY_LEFT_ALT,
+                    KEY_LEFT_GUI,
+                    KEY_RIGHT_ALT};
+}
 
-uint8_t modval[5] = {KEY_LEFT_CTRL,
-                     KEY_LEFT_SHIFT,
-                     KEY_LEFT_ALT,
-                     KEY_LEFT_GUI,
-                     KEY_RIGHT_ALT};
-
-enum layer {
-            Llatin,
-            Lcyrillic,
-            Lmodificator,
-} currl = Llatin, prevl = Llatin;
 
 namespace Layer {
+  enum layer {
+              latin,
+              cyrillic,
+              modificator
+  } curr = latin, prev = latin;
+
   void enter(layer newl) {
-    prevl = currl;
-    currl = newl;
+    prev = curr;
+    curr = newl;
+
 #ifdef DEBUGGING
     Serial.print("Enter layer ");
-    Serial.print(currl);
+    Serial.print(curr);
     Serial.print(" from layer ");
-    Serial.print(prevl);
+    Serial.print(prev);
 #endif
   }
 
-  uint16_t prevmodmask = 0;
+  uint16_t prevmodmask;
 
-  void enter_mod(uint16_t modmask) {
+  void enter_mod(const uint16_t modmask) {
     prevmodmask = modmask;
     uint8_t j = 0;
+
     for (uint16_t i = 1; i <= 16; i *= 2) {
       if (modmask & i) {
-        Keyboard.press(modval[j]);
+        Keyboard.press(Mod::val[j]);
+#ifdef DEBUGGING
         Serial.print("Send modificator ");
-        Serial.println(modval[j]);
+        Serial.println(Mod::val[j]);
+#endif
       }
       j++;
     }
+
+    prev = curr;
+    curr = modificator;
   }
 
   void back() {
+    Keyboard.releaseAll();
+    layer buf = prev;
+    prev = curr;
+    curr = buf;
+#ifdef DEBUGGING
+    Serial.println("Go back by layer.");
+#endif
 
   }
 }
+
 
 void setup() {
   Keyboard.begin();
@@ -101,11 +118,11 @@ chord read_row(uint8_t leftshift, uint8_t outmask, uint8_t readvalmask = 0xf0) {
 
   // Reverse the chord because of hardware design fault
   return (
-           (bitRead(c, 0) << 3) |
-           (bitRead(c, 1) << 2) |
-           (bitRead(c, 2) << 1) |
-           bitRead(c, 3)
-         ) << leftshift;
+          (bitRead(c, 0) << 3) |
+          (bitRead(c, 1) << 2) |
+          (bitRead(c, 2) << 1) |
+          bitRead(c, 3)
+          ) << leftshift;
 }
 
 /* Read all rows together. */

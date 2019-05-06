@@ -156,14 +156,15 @@ end
 
 def dochord(val)
   val = val.to_s if val.is_a? Numeric
-  val = val.join if val.is_a? Array
   if val == '_'
     EmptyChord.new
+  elsif val.is_a? Array
+    Chord.new val.join
   elsif val.start_with? 'mod_'
-    action = "start_mod(" +
+    action = "Layer::enter_mod(" +
              val.
                split('_')[1..-1].
-               map { |mod| mod.upcase }.
+               map { |mod| "Mod::" + mod }.
                join(' | ') +
              ");"
     Chord.new(action)
@@ -193,24 +194,36 @@ puts <<-EOK
  * https://github.com/bouncepaw/wakizashi
  */
 void exec_chord(chord currc) {
-  static layer currl = Llatin;
   currc = ~currc % (1 << 11);
   Serial.print("Execute chord ");
   debug_print(currc);
 
-  switch (currl) {
+  switch (Layer::curr) {
 EOK
 
 config['layers'].each do |layer, groups|
-  puts ind ind "case L#{layer}: {"
+  puts ind ind "case Layer::#{layer}: {"
   puts ind ind ind "switch (currc) {"
+  if groups['prepend'] != nil
+    puts groups['prepend']
+    groups.delete 'prepend'
+  end
+
+  appendbuf = ""
+  if groups['append'] != nil
+    appendbuf =  groups['append']
+    groups.delete 'append'
+  end
+
   groups.each do |group, mods|
     mods.each do |mod, chords|
       puts eval "_#{group}(_#{mod}(#{chords}))"
     end
-
   end
+
+
   puts ind ind ind "}"
+  puts ind ind ind appendbuf
   puts ind ind ind "break;"
   puts ind ind "}"
 end
