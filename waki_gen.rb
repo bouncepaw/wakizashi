@@ -161,12 +161,12 @@ def dochord(val)
   elsif val.is_a? Array
     Chord.new val.join
   elsif val.start_with? 'mod_'
-    action = "Layer::enter_mod(" +
+    action = "Mod::start(" +
              val.
                split('_')[1..-1].
                map { |mod| "Mod::" + mod }.
                join(' | ') +
-             ");"
+             ", Layer::curr, Layer::curr);"
     Chord.new(action)
   elsif val.start_with? '_'
     action = "Keyboard.press(KEY#{val.upcase});\n" +
@@ -197,6 +197,8 @@ void exec_chord(chord currc) {
   currc = ~currc % (1 << 11);
   Serial.print("Execute chord ");
   debug_print(currc);
+
+  Mod::stop_mod_maybe(currc, Layer::curr);
 
   switch (Layer::curr) {
 EOK
