@@ -17,8 +17,9 @@ typedef uint16_t chord;
 #define ROW2 _BV(1)
 
 #define DEBUGGING 1
-#include "mod.h"
+
 #include "layer.h"
+#include "mod.h"
 
 void setup() {
   Keyboard.begin();
@@ -94,4 +95,4 @@ void loop() {
   }
 
 
-}
+ }

@@ -29,21 +29,20 @@ namespace Mod {
         Serial.print("Send modificator ");
         Serial.println(Mod::val[j]);
 #endif
-
-        /* Move to next bit of modmask*/
-        modmask >>= 1;
-        /* Move to next element of Mod::val[5] */
-        j++;
       }
+      /* Move to next bit of modmask*/
+      modmask >>= 1;
+      /* Move to next element of Mod::val[5] */
+      j++;
     }
   }
 
   bool is_mod_on_now = false;
-  layer layer_before_start = Layer::latin;
+  Layer::layer layer_before_start = Layer::latin;
 
   /* Start modificator mode with modificators specified by modmask bitmask.
      Construct modmask with enum Mod::mod. */
-  void start(uint16_t modmask, layer layer_val, layer &layer_var) {
+  void start(uint16_t modmask, Layer::layer layer_val, Layer::layer &layer_var) {
     layer_before_start = layer_val;
     layer_var = Layer::latin;
 
@@ -53,17 +52,19 @@ namespace Mod {
   }
 
   /* Check chord currc and, if needed, stop modificator mode. */
-  void stop_maybe(chord currc, layer &layer_var) {
+  void stop_maybe(chord currc, Layer::layer &layer_var) {
     /* If function thumb is released*/
-    if (~currc & 1) {
+    if (!(currc & 1) && is_mod_on_now) {
       layer_var = layer_before_start;
       Keyboard.releaseAll();
-
+      
       #ifdef DEBUGGING
       Serial.print("End modificator mode.");
       #endif
+      
       is_mod_on_now = false;
     }
   }
+}
 
 #endif

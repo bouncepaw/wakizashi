@@ -154,6 +154,10 @@ def ind(text)
   " "*2 + text
 end
 
+def type(str)
+  "Keyboard.press(#{str});\n" +
+    " "*12 + "Keyboard.release(#{str});"
+end
 def dochord(val)
   val = val.to_s if val.is_a? Numeric
   if val == '_'
@@ -172,7 +176,15 @@ def dochord(val)
     action = "Keyboard.press(KEY#{val.upcase});\n" +
              " "*12 + "Keyboard.release(KEY#{val.upcase});"
     Chord.new(action)
-
+  elsif val == '\\\\'
+    Chord.new type "'\\\\'"
+  elsif val == "'"
+    Chord.new type "'\\''"
+  elsif val.length == 1
+    Chord.new type "'#{val}'"
+  else
+    Chord.new type "\"#{val}\""
+=begin
   elsif val == '\\\\'
     Chord.new "Keyboard.print('\\\\');"
   elsif val == "'"
@@ -181,6 +193,7 @@ def dochord(val)
     Chord.new "Keyboard.print('#{val}');"
   else
     Chord.new "Keyboard.print(\"#{val}\");"
+=end
   end
 end
 
@@ -199,6 +212,10 @@ void exec_chord(chord currc) {
   debug_print(currc);
 
   Mod::stop_mod_maybe(currc, Layer::curr);
+
+  if (Mod::is_mod_on_now) {
+    currc &=~ 1;
+  }
 
   switch (Layer::curr) {
 EOK
