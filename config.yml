@@ -1,27 +1,6 @@
 ---
 name: Wakizashi Default Latin+Cyrillic
 layers:
-  modificator:
-    single:
-      normal: [
-      o, a, p, e,
-      h, s, n, i,
-      ' ', ',', '.'
-      ]
-      shift: [
-      O, A, P, E,
-      H, S, N, I,
-      ]
-      symbol: [
-      8, 4, 2, 1,
-      ':', '"', "'", ";"
-      ]
-      function : [
-      o, a, p, e,
-      h, s, n, i
-      ]
-    append:
-      'if (!(currc & 1)) { Layer::back(); }'
   latin:
     single:
       normal: [
