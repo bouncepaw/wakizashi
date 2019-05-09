@@ -1,6 +1,6 @@
 #ifndef MOD_H
 #define MOD_H
-
+#define DEBUGGING 1
 namespace Mod {
 
   enum mod {
@@ -21,7 +21,9 @@ namespace Mod {
 class Modif {
 private:
   bool is_active;
+  bool in_ctrl;
   Layer::layer layer_before_start;
+  Layer::layer layer_before_start_ctrl;
   enum modiftype { tquazi, tmode, tctrl } mtype;
   chord quazi_thumb;
 public:
@@ -93,6 +95,28 @@ public:
     #endif
   }
 
+  void start_ctrl_maybe(Layer::layer &layer_var, chord &currc) {
+    if ((currc & 0b110) == 0b110) {
+      layer_before_start_ctrl = layer_var;
+      layer_var = Layer::latin;
+      currc &=~ 0b110;
+
+      Keyboard.press(KEY_LEFT_CTRL);
+      #ifdef DEBUGGING
+      Serial.println("This chord will be sent with left ctrl.");
+      #endif
+      in_ctrl = true;
+    }
+  }
+
+  void stop_ctrl_maybe(Layer::layer &layer_var) {
+    if (in_ctrl) {
+      layer_var = layer_before_start_ctrl;
+      Keyboard.release(KEY_LEFT_CTRL);
+      in_ctrl = false;
+    }
+  }
+
   void check_thumb(Layer::layer &layer_var, chord currc) {
     if (!is_active) return;
     if (tquazi == mtype) {
@@ -121,7 +145,7 @@ public:
 
   void stop_maybe(Layer::layer &layer_var, chord currc) {
     if (is_active &&
-        (tquazi == mtype && currc & 0b11 == 0)) {
+        ((tquazi == mtype) && (currc & 0b11) == 0)) {
       is_active = false;
       stop(layer_var);
     }

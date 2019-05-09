@@ -200,7 +200,7 @@ void exec_chord(chord currc) {
   modif.check_thumb(Layer::curr, currc);
   modif.modify_thumb_maybe(currc);
   modif.stop_maybe(Layer::curr, currc);
-
+  modif.start_ctrl_maybe(Layer::curr, currc);
   switch (Layer::curr) {
 EOK
 
@@ -233,6 +233,8 @@ end
 
 puts <<-EOK
   }
+
+  modif.stop_ctrl_maybe(Layer::curr);
 }
 #endif
 EOK
