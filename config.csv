@@ -1,0 +1,74 @@
+chord	no	t1	t2	t3	t23
+// Single presses
+0000		space	,	.
+0000
+
+1000	o	O	8	mod_shift
+    	h	H	:	_left_arrow
+
+0100	a	A	4	mod_altl
+    	s	S	"	_up_arrow
+
+0010	p	P	2	mod_ctrl
+    	n	N	'	_down_arrow
+
+0001	e	E	1	mod_super
+    	i	I	;	_right_arrow
+
+// Vertical presses
+1000	r	R	-	_page_down
+1000
+
+0100	l	L		_page_up
+0100
+
+0010	d	D	(	_tab
+0010
+
+0001	u	U	)	_esc
+0001
+
+// Double presses
+1100	th	Th	!		the
+    	y	Y	{		I
+
+0110	c	C	6		you
+    	f	F	3		we
+
+0011	m	M	9		they
+    	g	G	/		it
+
+1010	[	<	+		he
+    	{	~	*		an
+
+0101	]	>	0		she
+    	}	`			a
+
+// Triple presses
+1110	b	B	#
+    	x	X	*
+
+h1101	v	V	|
+    	q	Q
+
+0111	k	K	?
+    	z	Z
+
+1011	j	J	=
+    	sg	Sg
+
+// Quadruple presses
+1111	+modif.stop(Layer::curr);
+    	_
+
+1100	^
+1100
+
+0110	%
+0110
+
+0011	&
+0011
+
+1001	@
+1001
