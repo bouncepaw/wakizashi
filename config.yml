@@ -17,18 +17,18 @@ layers:
       ':', '"', "'", ";"
       ]
       function: [
-      mod_ctrl,  mod_altl,    _up_arrow,    mod_super,
-      mod_shift, _left_arrow, _down_arrow, _right_arrow
+      mod_ctrl,    mod_altl,    mod_shift, mod_super,
+      _left_arrow, _down_arrow, _up_arrow, _right_arrow
       ]
       macro: [
-      'to ', 'and ', 'of ', 'the ',
+      qmod_ctrl, qmod_altl, qmod_shift, qmod_super,
       'a ', 'in ', 'that ', 'be '
       ]
     vertical:
       normal: [r, l, d, u]
       shift: [R, L, D, U]
       symbol: [
-      _, _, '(', ')'
+      '-', _, '(', ')'
       ]
       function: [
       _page_down, _page_up, _tab, _esc
@@ -66,4 +66,4 @@ layers:
       _, _, _, _
       ]
     quadruple:
-      normal: ['-', '_', '^', '%', '&', '@']
+      normal: [["modif.stop(Layer::curr);"], '_', '^', '%', '&', '@']

@@ -33,24 +33,11 @@ EOK
 end
 
 class EmptyChord
-  def initalize
-  end
-
-  def add_thumb(_)
-    self
-  end
-
-  def add_fingers(_)
-    self
-  end
-
-  def as_string
-    ""
-  end
-
-  def thumb
-    ""
-  end
+  def initalize  ();  end
+  def add_thumb  (_); self; end
+  def add_fingers(_); self; end
+  def as_string  ();  ""; end
+  def thumb      ();  ""; end
 end
 
 def _generic_mod(chords, thumb)
@@ -164,13 +151,21 @@ def dochord(val)
     EmptyChord.new
   elsif val.is_a? Array
     Chord.new val.join
-  elsif val.start_with? 'mod_'
-    action = "Mod::start(" +
+  elsif val.start_with? 'qmod_'
+    action = "modif.start_quazi(" +
              val.
                split('_')[1..-1].
                map { |mod| "Mod::" + mod }.
                join(' | ') +
-             ", Layer::curr, Layer::curr);"
+             ", Layer::curr);"
+    Chord.new(action)
+  elsif val.start_with? 'mod_'
+    action = "modif.start_mode(" +
+             val.
+               split('_')[1..-1].
+               map { |mod| "Mod::" + mod }.
+               join(' | ') +
+             ", Layer::curr);"
     Chord.new(action)
   elsif val.start_with? '_'
     action = "Keyboard.press(KEY#{val.upcase});\n" +
@@ -183,17 +178,7 @@ def dochord(val)
   elsif val.length == 1
     Chord.new type "'#{val}'"
   else
-    Chord.new type "\"#{val}\""
-=begin
-  elsif val == '\\\\'
-    Chord.new "Keyboard.print('\\\\');"
-  elsif val == "'"
-    Chord.new "Keyboard.print('\\'');"
-  elsif val.length == 1
-    Chord.new "Keyboard.print('#{val}');"
-  else
     Chord.new "Keyboard.print(\"#{val}\");"
-=end
   end
 end
 
@@ -206,16 +191,15 @@ puts <<-EOK
  *
  * https://github.com/bouncepaw/wakizashi
  */
+Modif modif;
 void exec_chord(chord currc) {
   currc = ~currc % (1 << 11);
   Serial.print("Execute chord ");
   debug_print(currc);
 
-  Mod::stop_mod_maybe(currc, Layer::curr);
-
-  if (Mod::is_mod_on_now) {
-    currc &=~ 1;
-  }
+  modif.check_thumb(Layer::curr, currc);
+  modif.modify_thumb_maybe(currc);
+  modif.stop_maybe(Layer::curr, currc);
 
   switch (Layer::curr) {
 EOK
