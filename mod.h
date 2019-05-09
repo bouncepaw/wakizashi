@@ -10,7 +10,6 @@ namespace Mod {
             super = 8,
             altgr = 16
   };
-
   uint8_t val[5] = {KEY_LEFT_CTRL,
                     KEY_LEFT_SHIFT,
                     KEY_LEFT_ALT,
@@ -24,8 +23,6 @@ private:
   bool in_ctrl;
   Layer::layer layer_before_start;
   Layer::layer layer_before_start_ctrl;
-  enum modiftype { tquazi, tmode, tctrl } mtype;
-  chord quazi_thumb;
 public:
   Modif() {
     is_active = false;
@@ -73,24 +70,8 @@ public:
     register_mods(modmask);
 
     is_active = true;
-    mtype = tmode;
     #ifdef DEBUGGING
     Serial.print("Start modificator mode ");
-    Serial.println(modmask);
-    #endif
-  }
-
-  void start_quazi(uint16_t modmask, Layer::layer &layer_var) {
-    layer_before_start = layer_var;
-    layer_var = Layer::latin;
-    quazi_thumb = 0;
-
-    register_mods(modmask);
-
-    is_active = true;
-    mtype = tquazi;
-    #ifdef DEBUGGING
-    Serial.print("Start modificator quazimode ");
     Serial.println(modmask);
     #endif
   }
@@ -114,40 +95,6 @@ public:
       layer_var = layer_before_start_ctrl;
       Keyboard.release(KEY_LEFT_CTRL);
       in_ctrl = false;
-    }
-  }
-
-  void check_thumb(Layer::layer &layer_var, chord currc) {
-    if (!is_active) return;
-    if (tquazi == mtype) {
-      switch (currc & 0b11) {
-      case 0b10: quazi_thumb = 0b10; break;
-      case 0b01: quazi_thumb = 0b01; break;
-      default: stop(layer_var); break;
-      }
-    }
-  }
-
-  void modify_thumb_maybe(chord &currc) {
-    if (!is_active) return;
-    if (tquazi == mtype) {
-      #ifdef DEBUGGING
-      Serial.print("Modify thumb "); Serial.print(currc, BIN);
-      #endif
-
-      currc &=~ quazi_thumb;
-
-      #ifdef DEBUGGING
-      Serial.print(" to "); Serial.println(currc, BIN);
-      #endif
-    }
-  }
-
-  void stop_maybe(Layer::layer &layer_var, chord currc) {
-    if (is_active &&
-        ((tquazi == mtype) && (currc & 0b11) == 0)) {
-      is_active = false;
-      stop(layer_var);
     }
   }
 };

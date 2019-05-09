@@ -21,7 +21,7 @@ layers:
       _left_arrow, _down_arrow, _up_arrow, _right_arrow
       ]
       macro: [
-      qmod_ctrl, qmod_altl, qmod_shift, qmod_super,
+      _, _, _, _,
       'a ', 'in ', 'that ', 'be '
       ]
     vertical:

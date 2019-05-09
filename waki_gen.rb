@@ -151,14 +151,6 @@ def dochord(val)
     EmptyChord.new
   elsif val.is_a? Array
     Chord.new val.join
-  elsif val.start_with? 'qmod_'
-    action = "modif.start_quazi(" +
-             val.
-               split('_')[1..-1].
-               map { |mod| "Mod::" + mod }.
-               join(' | ') +
-             ", Layer::curr);"
-    Chord.new(action)
   elsif val.start_with? 'mod_'
     action = "modif.start_mode(" +
              val.
@@ -197,9 +189,6 @@ void exec_chord(chord currc) {
   Serial.print("Execute chord ");
   debug_print(currc);
 
-  modif.check_thumb(Layer::curr, currc);
-  modif.modify_thumb_maybe(currc);
-  modif.stop_maybe(Layer::curr, currc);
   modif.start_ctrl_maybe(Layer::curr, currc);
   switch (Layer::curr) {
 EOK
