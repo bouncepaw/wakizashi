@@ -1,8 +1,11 @@
-CONFIG=config.yml
-LAYOUT_BUILDER=ruby waki_gen.rb
-LAYOUT_H=layout.h
-show_config:
-	cat ${CONFIG}
+NAME=Wakizashi Default Bilingual
 
-build_layout:
-	${LAYOUT_BUILDER} ${CONFIG} > ${LAYOUT_H}
+gen:
+	@ruby genlayout.rb start "${NAME}"
+	@ruby make_layer.rb latin.csv
+	@ruby genlayout.rb end
+
+save:
+	@ruby genlayout.rb start "${NAME}" > layout.h
+	@ruby make_layer.rb latin.csv >> layout.h
+	@ruby genlayout.rb end >> layout.h

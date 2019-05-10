@@ -1,6 +1,6 @@
 chord	no	t1	t2	t3	t23
 // Single presses
-0000		space	,	.
+0000		 	,	.
 0000
 
 1000	o	O	8	mod_shift
@@ -19,7 +19,7 @@ chord	no	t1	t2	t3	t23
 1000	r	R	-	_page_down
 1000
 
-0100	l	L		_page_up
+0100	l	L	_backspace	_page_up
 0100
 
 0010	d	D	(	_tab
@@ -35,7 +35,7 @@ chord	no	t1	t2	t3	t23
 0110	c	C	6		you
     	f	F	3		we
 
-0011	m	M	9		they
+0011	m	M			they
     	g	G	/		it
 
 1010	[	<	+		he
@@ -44,11 +44,14 @@ chord	no	t1	t2	t3	t23
 0101	]	>	0		she
     	}	`			a
 
+1001	w	W	9
+    	t	T
+
 // Triple presses
 1110	b	B	#
     	x	X	*
 
-h1101	v	V	|
+1101	v	V	|
     	q	Q
 
 0111	k	K	?
@@ -58,7 +61,7 @@ h1101	v	V	|
     	sg	Sg
 
 // Quadruple presses
-1111	+modif.stop(Layer::curr);
+1111	mod_stop
     	_
 
 1100	^
