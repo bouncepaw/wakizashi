@@ -62,10 +62,46 @@ def convert_to_actions(table)
     "  Keyboard.press(#{str});\n" +
       "  Keyboard.release(#{str});"
   end
+
+change_map = {
+  ё: '`',  Ё: '~', :'к"' => '@', №: '#', :'к;' => '$', :'к:' => '^',
+
+  й: 'q', ц: 'w', у: 'e', к: 'r', е: 't', н: 'y',
+  г: 'u', ш: 'i', щ: 'o', з: 'p', х: '[', ъ: ']',
+
+  ф: 'a', ы: 's', в: 'd', а: 'f', п: 'g', р: 'h',
+  о: 'j', л: 'k', д: 'l', ж: ';', э: "'",
+
+  я: 'z', ч: 'x', с: 'c', м: 'v', и: 'b', т: 'n',
+  ь: 'm', б: ',', ю: '.', :"к." => "/",
+
+
+
+  Й: 'Q', Ц: 'W', У: 'E', К: 'R', Е: 'T', Н: 'Y',
+  Г: 'U', Ш: 'I', Щ: 'O', З: 'P', Х: '[', Ъ: ']',
+
+  Ф: 'A', Ы: 'S', В: 'D', А: 'F', П: 'G', Р: 'H',
+  О: 'J', Л: 'K', Д: 'L', Ж: ':', Э: '"', :"к/" => "|",
+
+  Я: 'Z', Ч: 'X', С: 'C', М: 'V', И: 'B', Т: 'N',
+  Ь: 'M', Б: '<', Ю: '>', :"к," => "?",
+}
+
   table.map do |line|
     [line[0]] + line[1..-1].map do |val|
+      if val != nil and change_map.has_key? val.to_sym
+        val = change_map[val.to_sym]
+      end
       if val == nil
         val
+      elsif val == '!lat'
+        "  Layer::curr = Layer::latin;\n" + (type 'KEY_F19')
+      elsif val == '!cyr'
+        "  Layer::curr = Layer::cyrillic;\n" + (type 'KEY_F19')
+      elsif val == '?lat'
+        "  Layer::curr = Layer::latin;\n"
+      elsif val == '?cyr'
+        "  Layer::curr = Layer::cyrillic;\n"
       elsif val == 'mod_stop'
         "  modif.stop(Layer::curr);"
       elsif val.start_with? 'mod_'
@@ -139,4 +175,5 @@ puts (apply_fingers \
         remove_comments \
         read_config).join("\n")
 puts "  }"
+puts "break;"
 puts "}"

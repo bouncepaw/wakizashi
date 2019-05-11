@@ -1,4 +1,4 @@
-chord	no	t1	t2	t3	t23
+chord	000	100	010	001	011
 // Single presses
 0000		 	,	.
 0000
@@ -16,13 +16,13 @@ chord	no	t1	t2	t3	t23
     	i	I	;	_right_arrow
 
 // Vertical presses
-1000	r	R	-	_page_down
+1000	r	R	-	_tab
 1000
 
-0100	l	L	_backspace	_page_up
+0100	l	L	_backspace
 0100
 
-0010	d	D	(	_tab
+0010	d	D	(	_return
 0010
 
 0001	u	U	)	_esc
@@ -33,13 +33,13 @@ chord	no	t1	t2	t3	t23
     	y	Y	{		I
 
 0110	c	C	6		you
-    	f	F	3		we
+    	f	F	_		we
 
-0011	m	M			they
+0011	m	M	3		they
     	g	G	/		it
 
 1010	[	<	+		he
-    	{	~	*		an
+    	{	~	 		an
 
 0101	]	>	0		she
     	}	`			a
@@ -62,7 +62,7 @@ chord	no	t1	t2	t3	t23
 
 // Quadruple presses
 1111	mod_stop
-    	_
+    	!cyr	?cyr
 
 1100	^
 1100

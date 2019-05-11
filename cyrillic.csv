@@ -1,0 +1,81 @@
+chord	000	100	010	001	011
+// Single presses
+0000		 	к,	к.
+0000
+
+1000	о	О	8	mod_shift
+    	в	В	к:	_left_arrow
+
+0100	а	А	4	mod_altl
+    	с	С	к"	_up_arrow
+
+0010	в	В	2	mod_ctrl
+    	н	Н		_down_arrow
+
+0001	е	Е	1	mod_super
+    	и	И	к;	_right_arrow
+
+// Vertical presses
+1000	р	Р	-	_tab
+1000
+
+0100	л	Л	_backspace	_f19
+0100
+
+0010	д	Д	(	_return
+0010
+
+0001	у	У	)	_esc
+0001
+
+// Double presses
+1100	п	П	!
+    	ы	Ы
+
+0110	к	К	6
+    	ё	Ё
+
+0011	м	М	3
+    	г	Г	к/
+
+1010	х	Х	+
+    	э	Э	_
+
+0101	ъ	Ъ	0
+    	щ	Щ
+
+1001	я	Я	9
+    	т	Т
+
+// Triple presses
+1110	б	Б	№
+    	д	Д	*
+
+1101	ь	Ь
+    	ж	Ж
+
+0111	к	К	к?
+    	з	З	%
+
+1011	й	Й	=
+    	ф	Ф
+
+// Quadruple presses
+1111	mod_stop
+    	!lat	?lat
+
+1100	ш	Ш
+1100
+
+0110	ы	Ы
+0110
+
+0011	ю	Ю
+0011
+
+1001	ц	Ц
+1001
+
+// Ещё что-то
+1000	ч	Ч
+0100
