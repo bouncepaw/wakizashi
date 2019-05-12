@@ -10,19 +10,19 @@ chord	000	100	010	001	011
     	с	С	к"	_up_arrow
 
 0010	в	В	2	mod_ctrl
-    	н	Н		_down_arrow
+    	н	Н	-	_down_arrow
 
 0001	е	Е	1	mod_super
     	и	И	к;	_right_arrow
 
 // Vertical presses
-1000	р	Р	-	_tab
+1000	р	Р		_tab
 1000
 
-0100	л	Л	_backspace	_f19
+0100	л	Л
 0100
 
-0010	д	Д	(	_return
+0010	д	Д	(
 0010
 
 0001	у	У	)	_esc
@@ -41,23 +41,29 @@ chord	000	100	010	001	011
 1010	х	Х	+
     	э	Э	_
 
-0101	ъ	Ъ	0
-    	щ	Щ
+0101	ь	Ь	0
+    	й	Й
 
 1001	я	Я	9
     	т	Т
+
+0010	_return
+0001
+
+0001	_backspace
+0010
 
 // Triple presses
 1110	б	Б	№
     	д	Д	*
 
-1101	ь	Ь
+1101	ъ	Ъ
     	ж	Ж
 
 0111	к	К	к?
     	з	З	%
 
-1011	й	Й	=
+1011	ш	Ш	=
     	ф	Ф
 
 // Quadruple presses
