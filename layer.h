@@ -20,7 +20,6 @@ namespace Layer {
   }
 
   void back() {
-    Keyboard.releaseAll();
     layer buf = prev;
     prev = curr;
     curr = buf;

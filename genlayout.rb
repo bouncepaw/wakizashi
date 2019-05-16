@@ -14,7 +14,7 @@ void exec_chord(chord currc) {
   Serial.print("Execute chord ");
   debug_print(currc);
 
-  modif.start_ctrl_maybe(Layer::curr, currc);
+  modif.start_ctrl_maybe(currc);
   modif.check_1();
   switch (Layer::curr) {
 EOK
@@ -22,8 +22,8 @@ else
   puts <<-EOK
   }
 
-  modif.stop_ctrl_maybe(Layer::curr);
-  modif.stop_1_maybe(Layer::curr);
+  modif.stop_ctrl_maybe();
+  modif.stop_1_maybe();
 }
 #endif
 EOK

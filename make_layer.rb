@@ -103,21 +103,21 @@ change_map = {
       elsif val == '?cyr'
         "  Layer::curr = Layer::cyrillic;\n"
       elsif val == 'mod_stop'
-        "  modif.stop(Layer::curr);"
+        "  modif.stop();"
       elsif val.start_with? 'mod_lock_'
         "  modif.start_mode(" +
           val.
             split('_')[1..-1].
             map { |mod| "Mod::" + mod }.
             join(' | ') +
-          ", Layer::curr);"
+          ");"
       elsif val.start_with? 'mod_'
         "  modif.start_mode_1(" +
           val.
             split('_')[1..-1].
             map { |mod| "Mod::" + mod }.
             join(' | ') +
-          ", Layer::curr);"
+          ");"
       elsif val == '_'
         type "'_'"
       elsif val.start_with? '_'

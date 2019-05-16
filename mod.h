@@ -1,6 +1,9 @@
 #ifndef MOD_H
 #define MOD_H
 #define DEBUGGING 1
+
+/* Erlang's andalso! Good, ain't it? */
+#define andalso &&
 namespace Mod {
 
   enum mod {
@@ -22,8 +25,7 @@ private:
   bool is_active;
   bool in_ctrl;
   enum {NEXT_TIME, NOW, NIL} turn_1_when = NIL;
-  Layer::layer layer_before_start;
-  Layer::layer layer_before_start_ctrl;
+
 public:
   Modif() {
     is_active = false;
@@ -52,8 +54,8 @@ public:
   }
 
 
-  void stop(Layer::layer &layer_var) {
-    layer_var = layer_before_start;
+  void stop() {
+    Layer::back();
     Keyboard.releaseAll();
 
 #ifdef DEBUGGING
@@ -64,9 +66,8 @@ public:
   }
 
 
-  void start_mode(uint16_t modmask, Layer::layer &layer_var) {
-    layer_before_start = layer_var;
-    layer_var = Layer::latin;
+  void start_mode(uint16_t modmask) {
+    Layer::enter(Layer::latin);
 
     register_mods(modmask);
 
@@ -77,44 +78,40 @@ public:
 #endif
   }
 
-  void start_mode_1(uint16_t modmask, Layer::layer &layer_var) {
-    start_mode(modmask, layer_var);
+  void start_mode_1(uint16_t modmask) {
+    start_mode(modmask);
 #ifdef DEBUGGING
     Serial.println("just for 1 chord");
 #endif
     turn_1_when = NEXT_TIME;
   }
 
-  void start_ctrl_maybe(Layer::layer &layer_var, chord &currc) {
+  void start_ctrl_maybe(chord &currc) {
     if ((currc & 0b110) == 0b110) {
-      layer_before_start_ctrl = layer_var;
-      layer_var = Layer::latin;
-      currc &=~ 0b110;
-
+      Layer::enter(Layer::latin);
       Keyboard.press(KEY_LEFT_CTRL);
 #ifdef DEBUGGING
       Serial.println("This chord will be sent with left ctrl.");
 #endif
       in_ctrl = true;
+      currc &=~ 0b110;
     }
   }
 
   void check_1() {
-    if (turn_1_when == NEXT_TIME) {
-      turn_1_when = NOW;
-    }
+    turn_1_when == NEXT_TIME andalso (turn_1_when = NOW);
   }
 
-  void stop_1_maybe(Layer::layer &layer_var) {
+  void stop_1_maybe() {
     if (turn_1_when == NOW) {
       turn_1_when = NIL;
-      stop(layer_var);
+      stop();
     }
   }
 
-  void stop_ctrl_maybe(Layer::layer &layer_var) {
+  void stop_ctrl_maybe() {
     if (in_ctrl) {
-      layer_var = layer_before_start_ctrl;
+      Layer::back();
       Keyboard.release(KEY_LEFT_CTRL);
       in_ctrl = false;
     }
