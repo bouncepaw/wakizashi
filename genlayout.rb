@@ -15,6 +15,7 @@ void exec_chord(chord currc) {
   debug_print(currc);
 
   modif.start_ctrl_maybe(Layer::curr, currc);
+  modif.check_1();
   switch (Layer::curr) {
 EOK
 else
@@ -22,6 +23,7 @@ else
   }
 
   modif.stop_ctrl_maybe(Layer::curr);
+  modif.stop_1_maybe(Layer::curr);
 }
 #endif
 EOK

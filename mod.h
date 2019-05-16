@@ -21,6 +21,7 @@ class Modif {
 private:
   bool is_active;
   bool in_ctrl;
+  enum {NEXT_TIME, NOW, NIL} turn_1_when = NIL;
   Layer::layer layer_before_start;
   Layer::layer layer_before_start_ctrl;
 public:
@@ -70,10 +71,18 @@ public:
     register_mods(modmask);
 
     is_active = true;
-    #ifdef DEBUGGING
+#ifdef DEBUGGING
     Serial.print("Start modificator mode ");
     Serial.println(modmask);
-    #endif
+#endif
+  }
+
+  void start_mode_1(uint16_t modmask, Layer::layer &layer_var) {
+    start_mode(modmask, layer_var);
+#ifdef DEBUGGING
+    Serial.println("just for 1 chord");
+#endif
+    turn_1_when = NEXT_TIME;
   }
 
   void start_ctrl_maybe(Layer::layer &layer_var, chord &currc) {
@@ -83,10 +92,23 @@ public:
       currc &=~ 0b110;
 
       Keyboard.press(KEY_LEFT_CTRL);
-      #ifdef DEBUGGING
+#ifdef DEBUGGING
       Serial.println("This chord will be sent with left ctrl.");
-      #endif
+#endif
       in_ctrl = true;
+    }
+  }
+
+  void check_1() {
+    if (turn_1_when == NEXT_TIME) {
+      turn_1_when = NOW;
+    }
+  }
+
+  void stop_1_maybe(Layer::layer &layer_var) {
+    if (turn_1_when == NOW) {
+      turn_1_when = NIL;
+      stop(layer_var);
     }
   }
 

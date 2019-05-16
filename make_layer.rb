@@ -64,7 +64,7 @@ def convert_to_actions(table)
   end
 
 change_map = {
-  ё: '`',  Ё: '~', :'к"' => '@', №: '#', :'к;' => '$', :'к:' => '^',
+  ё: '`',  Ё: '~', :'к"' => '@', №: '#', :'к;' => '$', :'к:' => '^', :'к?' => '&',
 
   й: 'q', ц: 'w', у: 'e', к: 'r', е: 't', н: 'y',
   г: 'u', ш: 'i', щ: 'o', з: 'p', х: '[', ъ: ']',
@@ -104,8 +104,15 @@ change_map = {
         "  Layer::curr = Layer::cyrillic;\n"
       elsif val == 'mod_stop'
         "  modif.stop(Layer::curr);"
-      elsif val.start_with? 'mod_'
+      elsif val.start_with? 'mod_lock_'
         "  modif.start_mode(" +
+          val.
+            split('_')[1..-1].
+            map { |mod| "Mod::" + mod }.
+            join(' | ') +
+          ", Layer::curr);"
+      elsif val.start_with? 'mod_'
+        "  modif.start_mode_1(" +
           val.
             split('_')[1..-1].
             map { |mod| "Mod::" + mod }.
